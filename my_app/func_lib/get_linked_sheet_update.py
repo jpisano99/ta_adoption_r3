@@ -1,5 +1,5 @@
-from app.func_lib.get_list_from_ss import get_list_from_ss
-from app.settings import app
+from my_app.func_lib.get_list_from_ss import get_list_from_ss
+from my_app.settings import app_cfg
 
 
 #
@@ -7,7 +7,7 @@ from app.settings import app
 # example: cx_dict = {'customer':[cx_contact],cx[status]}
 #
 def get_linked_sheet_update(my_map, my_tag, my_keys):
-    my_sheet = app[my_tag]
+    my_sheet = app_cfg[my_tag]
     rows = get_list_from_ss(my_sheet)
 
     # Get the key column name to link on

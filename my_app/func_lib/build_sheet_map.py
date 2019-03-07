@@ -1,5 +1,5 @@
-from app.func_lib.open_wb import open_wb
-from app.ss_lib.Ssheet_class import Ssheet
+from my_app.func_lib.open_wb import open_wb
+from my_app.ss_lib.Ssheet_class import Ssheet
 
 
 def build_sheet_map(file_name, my_map, tag):

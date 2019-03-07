@@ -2,7 +2,7 @@ from .smartsheet_basic_functions import *
 
 
 ss_config = dict(
-    SS_TOKEN=app.my_secrets.passwords["SS_TOKEN"]
+    SS_TOKEN=my_app.my_secrets.passwords["SS_TOKEN"]
     )
 
 

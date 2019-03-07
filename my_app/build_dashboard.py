@@ -1,26 +1,26 @@
 import datetime
 import xlrd
 
-from app.settings import app
+from my_app.settings import app_cfg
 
-from app.func_lib.open_wb import open_wb
-from app.func_lib.push_list_to_xls import push_list_to_xls
-from app.func_lib.create_customer_order_dict import create_customer_order_dict
-from app.func_lib.get_linked_sheet_update import get_linked_sheet_update
-from app.func_lib.build_sheet_map import build_sheet_map
-from app.func_lib.sheet_desc import sheet_map, sheet_keys
-from app.func_lib.build_sku_dict import build_sku_dict
-from app.func_lib.push_xls_to_ss import push_xls_to_ss
+from my_app.func_lib.open_wb import open_wb
+from my_app.func_lib.push_list_to_xls import push_list_to_xls
+from my_app.func_lib.create_customer_order_dict import create_customer_order_dict
+from my_app.func_lib.get_linked_sheet_update import get_linked_sheet_update
+from my_app.func_lib.build_sheet_map import build_sheet_map
+from my_app.func_lib.sheet_desc import sheet_map, sheet_keys
+from my_app.func_lib.build_sku_dict import build_sku_dict
+from my_app.func_lib.push_xls_to_ss import push_xls_to_ss
 
 
 def build_dashboard():
-    from app.func_lib.sheet_desc import sheet_map
+    from my_app.func_lib.sheet_desc import sheet_map
     #
     # Open the order summary
     #
-    wb_orders, sheet_orders = open_wb(app['XLS_ORDER_SUMMARY'])
+    wb_orders, sheet_orders = open_wb(app_cfg['XLS_ORDER_SUMMARY'])
 
-    # wb_orders, sheet_orders = open_wb('tmp_TA Scrubbed Orders_as_of ' + app['PROD_DATE'])
+    # wb_orders, sheet_orders = open_wb('tmp_TA Scrubbed Orders_as_of ' + app_cfg['PROD_DATE'])
 
     # Loop over the orders XLS worksheet
     # Create a simple list of orders with NO headers
@@ -43,9 +43,9 @@ def build_dashboard():
     print(len(customer_order_dict), ' unique customers')
     print()
     # Build Sheet Maps
-    sheet_map = build_sheet_map(app['SS_CX'], sheet_map, 'SS_CX')
-    sheet_map = build_sheet_map(app['SS_AS'], sheet_map, 'SS_AS')
-    sheet_map = build_sheet_map(app['SS_SAAS'], sheet_map, 'SS_SAAS')
+    sheet_map = build_sheet_map(app_cfg['SS_CX'], sheet_map, 'SS_CX')
+    sheet_map = build_sheet_map(app_cfg['SS_AS'], sheet_map, 'SS_AS')
+    sheet_map = build_sheet_map(app_cfg['SS_SAAS'], sheet_map, 'SS_SAAS')
 
     #
     # Get dict updates from linked sheets CX/AS/SAAS
@@ -224,8 +224,8 @@ def build_dashboard():
     #
     # Write the Dashboard to an Excel File
     #
-    push_list_to_xls(new_rows, app['XLS_DASHBOARD'])
-    # push_xls_to_ss(app['XLS_DASHBOARD']+'_as_of_01_31_2019.xlsx', 'jims dash')
+    push_list_to_xls(new_rows, app_cfg['XLS_DASHBOARD'])
+    # push_xls_to_ss(app_cfg['XLS_DASHBOARD']+'_as_of_01_31_2019.xlsx', 'jims dash')
 
     return
 

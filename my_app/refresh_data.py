@@ -1,8 +1,7 @@
-from app.settings import app, init_settings
-from app.func_lib.open_wb import open_wb
-from app.func_lib.push_list_to_xls import push_list_to_xls
-from app.func_lib.build_sku_dict import build_sku_dict
-import time
+from my_app.settings import app_cfg, init_settings
+from my_app.func_lib.open_wb import open_wb
+from my_app.func_lib.push_list_to_xls import push_list_to_xls
+from my_app.func_lib.build_sku_dict import build_sku_dict
 import os
 
 
@@ -14,10 +13,10 @@ def refresh_data():
     # It will prep them and then place them in the working_dir
     # It will also take the previously used working files and move them to the archive_dir
 
-    home = app['HOME']
-    working_dir = app['WORKING_DIR']
-    update_dir = app['UPDATES_DIR']
-    archive_dir = app['ARCHIVES_DIR']
+    home = app_cfg['HOME']
+    working_dir = app_cfg['WORKING_DIR']
+    update_dir = app_cfg['UPDATES_DIR']
+    archive_dir = app_cfg['ARCHIVES_DIR']
 
     path_to_main_dir = (os.path.join(home, working_dir))
     path_to_updates = (os.path.join(home, working_dir, update_dir))
@@ -75,10 +74,9 @@ def refresh_data():
         elif file.find('AS SKUs') != -1:
             os.rename(os.path.join(path_to_main_dir, file), os.path.join(archive_folder_path, file))
 
-
     # We have now created the bookings list lets write it
     print('New Master Bookings has ', len(bookings), ' line items')
-    push_list_to_xls(bookings, 'TA Master Bookings as of ', as_of_date)
+    push_list_to_xls(bookings, 'TA Master Bookings as of ')
 
     # Move the Renewals file into production from updates director
     renewal_file = 'TA Renewal Dates as of '+as_of_date+'.xlsx'
@@ -90,18 +88,18 @@ def refresh_data():
 
 def get_as_skus():
     init_settings()
-    print('is this right', app['PROD_DATE'])
+    print('is this right', app_cfg['PROD_DATE'])
 
     tmp_dict = build_sku_dict()
     sku_dict = {}
-    wb, ws = open_wb(app['XLS_BOOKINGS'])
+    wb, ws = open_wb(app_cfg['XLS_BOOKINGS'])
     header_row = ws.row_values(0)
 
     for sku_key, sku_val in tmp_dict.items():
         if sku_val[0] == 'Service':
             sku_dict[sku_key] = sku_val
 
-    sku_col_header  = 'Bundle Product ID'
+    sku_col_header = 'Bundle Product ID'
     sku_col_num = 0
     as_skus = [header_row]
 

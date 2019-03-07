@@ -1,5 +1,4 @@
-from app.func_lib.build_sku_dict import build_sku_dict
-import time
+from my_app.func_lib.build_sku_dict import build_sku_dict
 
 
 def cleanup_orders(customer_list, order_dict, col_map):

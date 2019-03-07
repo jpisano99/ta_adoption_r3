@@ -1,18 +1,18 @@
 import datetime
 import time
 
-from app.settings import app
+from my_app.settings import app_cfg
 
-from app.func_lib.open_wb import open_wb
-from app.func_lib.build_coverage_dict import build_coverage_dict
-from app.func_lib.build_sku_dict import build_sku_dict
-from app.func_lib.find_team import find_team
-from app.func_lib.sheet_desc import sheet_map
-from app.func_lib.build_sheet_map import build_sheet_map
-from app.func_lib.process_renewals import process_renewals
-from app.func_lib.build_customer_list import build_customer_list
-from app.func_lib.cleanup_orders import cleanup_orders
-from app.func_lib.push_list_to_xls import push_list_to_xls
+from my_app.func_lib.open_wb import open_wb
+from my_app.func_lib.build_coverage_dict import build_coverage_dict
+from my_app.func_lib.build_sku_dict import build_sku_dict
+from my_app.func_lib.find_team import find_team
+from my_app.func_lib.sheet_desc import sheet_map
+from my_app.func_lib.build_sheet_map import build_sheet_map
+from my_app.func_lib.process_renewals import process_renewals
+from my_app.func_lib.build_customer_list import build_customer_list
+from my_app.func_lib.cleanup_orders import cleanup_orders
+from my_app.func_lib.push_list_to_xls import push_list_to_xls
 
 
 def process_bookings():
@@ -25,13 +25,13 @@ def process_bookings():
     #
     # Open up the bookings excel workbooks
     #
-    wb_bookings, sheet_bookings = open_wb(app['XLS_BOOKINGS'])
+    wb_bookings, sheet_bookings = open_wb(app_cfg['XLS_BOOKINGS'])
 
     # From the current up to date bookings file build a simple list
     # that describes the format of the output file we are creating
     # and the columns we need to add (ie PSS, TSA, Renewal Dates)
 
-    my_sheet_map = build_sheet_map(app['XLS_BOOKINGS'], sheet_map, 'XLS_BOOKINGS')
+    my_sheet_map = build_sheet_map(app_cfg['XLS_BOOKINGS'], sheet_map, 'XLS_BOOKINGS')
     print('sheet_map ', id(sheet_map))
     print('my_sheet_map ', id(my_sheet_map))
     #
@@ -209,20 +209,20 @@ def process_bookings():
     # Push our lists to an excel file
     #
     # push_list_to_xls(customer_platforms, 'jim ')
-    print('order summary name ', app['XLS_ORDER_SUMMARY'])
+    print('order summary name ', app_cfg['XLS_ORDER_SUMMARY'])
 
-    push_list_to_xls(summary_order_rows, app['XLS_ORDER_SUMMARY'])
-    push_list_to_xls(order_rows, app['XLS_ORDER_DETAIL'])
-    push_list_to_xls(customer_list, app['XLS_CUSTOMER'])
-    push_list_to_xls(trash_rows, app['XLS_BOOKINGS_TRASH'])
+    push_list_to_xls(summary_order_rows, app_cfg['XLS_ORDER_SUMMARY'])
+    push_list_to_xls(order_rows, app_cfg['XLS_ORDER_DETAIL'])
+    push_list_to_xls(customer_list, app_cfg['XLS_CUSTOMER'])
+    push_list_to_xls(trash_rows, app_cfg['XLS_BOOKINGS_TRASH'])
 
     # exit()
     #
     # Push our lists to a smart sheet
     #
-    # push_xls_to_ss(wb_file, app['XLS_ORDER_SUMMARY'])
-    # push_xls_to_ss(wb_file, app['XLS_ORDER_DETAIL'])
-    # push_xls_to_ss(wb_file, app['XLS_CUSTOMER'])
+    # push_xls_to_ss(wb_file, app_cfg['XLS_ORDER_SUMMARY'])
+    # push_xls_to_ss(wb_file, app_cfg['XLS_ORDER_DETAIL'])
+    # push_xls_to_ss(wb_file, app_cfg['XLS_CUSTOMER'])
     # exit()
     return
 

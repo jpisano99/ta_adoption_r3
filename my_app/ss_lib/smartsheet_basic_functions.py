@@ -1,6 +1,7 @@
 import smartsheet
-import app.my_secrets
+import my_app.my_secrets
 import json
+
 
 def ss_get_sheet(ss, sheet_name):
     # Get Sheet meta-data

@@ -1,5 +1,5 @@
-from ..ss_lib.Ssheet_class import Ssheet
-from ..settings import app
+from my_app.ss_lib.Ssheet_class import Ssheet
+from my_app.settings import app_cfg
 
 
 #
@@ -7,7 +7,7 @@ from ..settings import app
 #
 def build_sku_dict():
     # Create an object from SmartSheets
-    skus = app['SS_SKU']
+    skus = app_cfg['SS_SKU']
     my_skus = Ssheet(skus)
 
     sku_dict = {}

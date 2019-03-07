@@ -1,18 +1,18 @@
 from datetime import datetime
 import datetime
 import xlrd
-from app.settings import app
-from app.func_lib.sheet_desc import sheet_map
-from app.func_lib.open_wb import open_wb
-from app.func_lib.build_sheet_map import build_sheet_map
+from my_app.settings import app_cfg
+from my_app.func_lib.sheet_desc import sheet_map
+from my_app.func_lib.open_wb import open_wb
+from my_app.func_lib.build_sheet_map import build_sheet_map
 
 
 def process_renewals():
     # Open up the renewals excel workbooks
-    wb, sheet = open_wb(app['XLS_RENEWALS'])
+    wb, sheet = open_wb(app_cfg['XLS_RENEWALS'])
 
     # Get the renewal columns we are looking for
-    my_map = build_sheet_map(app['XLS_RENEWALS'], sheet_map, 'XLS_RENEWALS')
+    my_map = build_sheet_map(app_cfg['XLS_RENEWALS'], sheet_map, 'XLS_RENEWALS')
 
     print('sheet_map ', id(sheet_map))
     print('my map ', id(my_map))

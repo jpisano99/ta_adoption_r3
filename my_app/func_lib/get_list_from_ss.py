@@ -1,4 +1,4 @@
-from app.ss_lib.Ssheet_class import Ssheet
+from my_app.ss_lib.Ssheet_class import Ssheet
 
 
 #
@@ -32,5 +32,3 @@ def get_list_from_ss(my_ss):
         my_rows.append(my_row)
 
     return my_rows
-
-

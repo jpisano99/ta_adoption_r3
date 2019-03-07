@@ -1,5 +1,5 @@
-from ..ss_lib.Ssheet_class import Ssheet
-from ..settings import app
+from my_app.ss_lib.Ssheet_class import Ssheet
+from my_app.settings import app_cfg
 
 #
 # Create a dict called team_dict from the coverage smartsheet
@@ -8,7 +8,7 @@ from ..settings import app
 
 def build_coverage_dict():
     # Create an object from SmartSheets
-    coverage = app['SS_COVERAGE']
+    coverage = app_cfg['SS_COVERAGE']
     my_coverage = Ssheet(coverage)
 
     team_dict = {}

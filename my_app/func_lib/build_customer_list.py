@@ -1,13 +1,13 @@
-from app.settings import app
-from app.func_lib.build_sheet_map import build_sheet_map
-from app.func_lib.sheet_desc import sheet_map
-from app.func_lib.open_wb import open_wb
+from my_app.settings import app_cfg
+from my_app.func_lib.build_sheet_map import build_sheet_map
+from my_app.func_lib.sheet_desc import sheet_map
+from my_app.func_lib.open_wb import open_wb
 
 
 def build_customer_list():
-    my_map = build_sheet_map(app['XLS_BOOKINGS'], sheet_map, 'XLS_BOOKINGS')
+    my_map = build_sheet_map(app_cfg['XLS_BOOKINGS'], sheet_map, 'XLS_BOOKINGS')
 
-    wb_bookings, sheet_bookings = open_wb(app['XLS_BOOKINGS'])
+    wb_bookings, sheet_bookings = open_wb(app_cfg['XLS_BOOKINGS'])
     customer_list = []
     col_num_end_customer = -1
     col_num_erp_customer = -1

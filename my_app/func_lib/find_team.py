@@ -4,15 +4,12 @@
 
 
 def find_team(team_dict, sales_level):
-    teams = []
     # Look for the team(s) with the longest match on the territory
     # sales_level formatted as:
     # 'Americas,US COMMERCIAL,COMMERCIAL SOUTH AREA,South West Select Operation,
     #                                           GULF STATES SELECT,GULF STATES SELECT 6,'
     #
     longest_match = 0
-    pss = []
-    tsa = []
     team = []
     for k, v in team_dict.items():
         if sales_level.startswith(k, 0, len(k)):
