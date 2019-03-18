@@ -19,9 +19,10 @@ def init_settings():
         print("No Updates Found")
         update_date.append('None Found')
 
-    if len(prod_date) == 0:
-        print("No Production Files Found")
-        prod_date.append('No Production Files Found')
+    prod_date = update_date
+    # if len(prod_date) == 0:
+    #     print("No Production Files Found")
+    #     prod_date.append('No Production Files Found')
 
     app_cfg['PROD_DATE'] = prod_date[0]
     app_cfg['UPDATE_DATE'] = update_date[0]

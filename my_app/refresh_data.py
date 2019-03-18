@@ -2,6 +2,8 @@ from my_app.settings import app_cfg, init_settings
 from my_app.func_lib.open_wb import open_wb
 from my_app.func_lib.push_list_to_xls import push_list_to_xls
 from my_app.func_lib.build_sku_dict import build_sku_dict
+from my_app.process_bookings import process_bookings
+from my_app.build_dashboard import build_dashboard
 import os
 from shutil import copyfile
 
@@ -71,6 +73,16 @@ def refresh_data():
     os.rename(os.path.join(path_to_updates, 'tmp_working_as_bookings'),
               os.path.join(path_to_updates, 'tmp_TA AS SKUs as of '+as_of_date+'.xlsx'))
 
+    # process_bookings
+    print ('Before init', app_cfg['XLS_BOOKINGS'])
+    init_settings()
+    print('after init', app_cfg['XLS_BOOKINGS'])
+
+    process_bookings()
+
+    # build_dashboard
+    build_dashboard()
+
     # Make an archive directory we need to place these update files
     os.mkdir(os.path.join(path_to_archives, as_of_date+" Updates"))
     archive_folder_path = os.path.join(path_to_archives, as_of_date+" Updates")
@@ -86,56 +98,13 @@ def refresh_data():
     for file in main_files:
         print(file)
         os.rename(os.path.join(path_to_updates, file), os.path.join(archive_folder_path, file))
-    exit()
 
     # Move the Renewals file into production from updates director
-    renewal_file = 'TA Renewal Dates as of '+as_of_date+'.xlsx'
-    os.rename(os.path.join(path_to_updates, renewal_file), os.path.join(path_to_main_dir, renewal_file))
+    # renewal_file = 'TA Renewal Dates as of '+as_of_date+'.xlsx'
+    # os.rename(os.path.join(path_to_updates, renewal_file), os.path.join(path_to_main_dir, renewal_file))
 
     print('All data files have been refreshed and archived !')
 
-    exit()
-
-
-
-
-
-    # Look in the main working directory for current production files
-    # and move to a dated archive folder in the 'archives' directory
-
-    # Get the as_of_date from the current production files
-    # so we can create the properly named archive folder
-    main_files = os.listdir(path_to_main_dir)
-    archive_date = ''
-    for file in main_files:
-        if file.find('Master Bookings') != -1:
-            archive_date = file[-13:-13 + 8]
-
-
-
-
-    # Make the archive directory we need
-    os.mkdir(os.path.join(path_to_archives, archive_date+" Updates"))
-    archive_folder_path = os.path.join(path_to_archives, archive_date+" Updates")
-
-    for file in main_files:
-        if file.find('Master Bookings') != -1:
-            os.rename(os.path.join(path_to_main_dir, file), os.path.join(archive_folder_path, file))
-        elif file.find('Renewal') != -1:
-            os.rename(os.path.join(path_to_main_dir, file), os.path.join(archive_folder_path, file))
-        elif file.find('AS SKUs') != -1:
-            os.rename(os.path.join(path_to_main_dir, file), os.path.join(archive_folder_path, file))
-
-
-
-
-
-
-    # Move the Renewals file into production from updates director
-    renewal_file = 'TA Renewal Dates as of '+as_of_date+'.xlsx'
-    os.rename(os.path.join(path_to_updates, renewal_file), os.path.join(path_to_main_dir, renewal_file))
-
-    print('All data files have been refreshed and archived !')
     return
 
 
@@ -170,9 +139,5 @@ def get_as_skus(bookings):
 
 
 if __name__ == "__main__" and __package__ is None:
-    print(__package__)
-    print('running process bookings')
+    print('running refresh data')
     refresh_data()
-    print('Extracting AS SKUs')
-
-
