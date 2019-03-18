@@ -27,6 +27,12 @@ def refresh_data():
     start_row = 0
     as_of_date = ''
 
+    print(path_to_main_dir)
+    print(path_to_updates)
+    print(path_to_archives)
+    print(app_cfg['PROD_DATE'])
+    print(app_cfg['UPDATE_DATE'])
+
     # Look in the "ta_data_updates" dir
     # this is where we place newly updated sheets to be put into production
     if len(update_files) == 0:
@@ -118,3 +124,9 @@ def get_as_skus():
 
     print('All AS SKUs have been extracted from the current data!')
     return
+
+
+if __name__ == "__main__" and __package__ is None:
+    print(__package__)
+    print('running process bookings')
+    refresh_data()

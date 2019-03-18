@@ -15,6 +15,13 @@ def init_settings():
 
     prod_date = [file[-13:-13 + 8] for file in main_files if file.find('Master Bookings') != -1]
     update_date = [file[-13:-13 + 8] for file in update_files if file.find('Master Bookings') != -1]
+    if len(update_date) == 0:
+        print("No Updates Found")
+        update_date.append('None Found')
+
+    if len(prod_date) == 0:
+        print("No Production Files Found")
+        prod_date.append('No Production Files Found')
 
     app_cfg['PROD_DATE'] = prod_date[0]
     app_cfg['UPDATE_DATE'] = update_date[0]
