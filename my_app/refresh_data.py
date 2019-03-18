@@ -123,7 +123,10 @@ def get_as_skus():
         if ws.cell_value(row, sku_col_num) in sku_dict:
             as_skus.append(ws.row_values(row))
 
-    push_list_to_xls(as_skus, 'TA AS SKUs as of ')
+    push_list_to_xls(as_skus, 'tmp_TA AS SKUs as of ')
+    path_to_main_dir = (os.path.join(app_cfg['HOME'], app_cfg['WORKING_DIR']))
+    os.rename(os.path.join(path_to_main_dir, 'tmp_TA AS SKUs as of '),
+              os.path.join(path_to_main_dir, 'tmp_TA AS SKUs as of '+app_cfg['PROD_DATE']+'.xlsx'))
 
     print('All AS SKUs have been extracted from the current data!')
     return
@@ -133,3 +136,6 @@ if __name__ == "__main__" and __package__ is None:
     print(__package__)
     print('running process bookings')
     refresh_data()
+    print('Extracting AS SKUs')
+    get_as_skus()
+

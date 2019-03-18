@@ -30,7 +30,7 @@ def init_settings():
     app_cfg['XLS_CUSTOMER'] = 'tmp_TA Customer List ' + app_cfg['PROD_DATE'] + '.xlsx'
     app_cfg['XLS_ORDER_DETAIL'] = 'tmp_TA Order Details ' + app_cfg['PROD_DATE'] + '.xlsx'
     app_cfg['XLS_ORDER_SUMMARY'] = 'tmp_TA Scrubbed Orders ' + app_cfg['PROD_DATE'] + '.xlsx'
-    app_cfg['XLS_BOOKINGS_TRASH'] = 'tmp Bookings Trash ' + app_cfg['PROD_DATE'] + '.xlsx'
+    app_cfg['XLS_BOOKINGS_TRASH'] = 'tmp_Bookings Trash ' + app_cfg['PROD_DATE'] + '.xlsx'
     app_cfg['XLS_DASHBOARD'] = 'tmp_TA Unified Adoption Dashboard ' + app_cfg['PROD_DATE'] + '.xlsx'
 
     print("prod date", app_cfg['PROD_DATE'])
