@@ -9,47 +9,56 @@ from my_app.build_dashboard import build_dashboard
 @app.route('/')
 def index():
     print('index')
-    return render_template('index2.html')
+    return render_template('index.html')
 
 
-@app.route('/doIt', methods=['GET', 'POST'])
-def doIt():
-    if request.method == "POST":
-        print('got a post')
-    elif request.method == "GET":
-        print('got a get')
-        print(request.args)
+@app.route('/refresh_data')
+def update_data():
+    print('refresh data')
+    print(app_cfg['HOME'])
+    # refresh_data()
+    time.sleep(2)
+    #  render_template('processing.html')
+    return render_template('index.html')
 
-    if request.args['action'] == 'importNew':
-        pass
-    elif request.args['action'] == 'processBookings':
-        process_bookings()
-    elif request.args['action'] == 'dashBuild':
-        build_dashboard()
-    else:
-        print('NO args found')
 
-    print(request.args['action'])
-    return render_template('status.html')
+@app.route('/process_bookings')
+def process_bookings():
+    print('process bookings')
+    print(app_cfg['HOME'])
+    # process_bookings()
+    time.sleep(2)
+    #  render_template('processing.html')
+    return render_template('index.html')
 
-# @app.route('/process_bookings')
-# def process_bookings():
-#     print('process bookings')
-#     print(app_cfg['HOME'])
-#     # process_bookings()
+
+@app.route('/build_dashboard')
+def build_dashboard():
+    print('build dashboard')
+    print(app_cfg['HOME'])
+    # build_dashboard()
+    time.sleep(2)
+    return render_template('index.html')
+
+
+# @app.route('/doIt', methods=['GET', 'POST'])
+# def doIt():
+#     if request.method == "POST":
+#         print('got a post')
+#     elif request.method == "GET":
+#         print('got a get')
+#         print(request.args)
 #
-#     print(url_for   )
-#     time.sleep(5)
-#     #  render_template('processing.html')
+#     if request.args['action'] == 'importNew':
+#         pass
+#     elif request.args['action'] == 'processBookings':
+#         process_bookings()
+#     elif request.args['action'] == 'dashBuild':
+#         build_dashboard()
+#     else:
+#         print('NO args found')
 #
-#     return render_template('success.html')
-#
-#
-# @app.route('/build_dashboard_click')
-# def build_dashboard_click():
-#     print('here i am')
-#     print(app_cfg['HOME'])
-#     build_dashboard()
-#     return render_template('index.html')
+#     print(request.args['action'])
+#     return render_template('status.html')
 
 
