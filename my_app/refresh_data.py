@@ -81,8 +81,11 @@ def refresh_data():
             os.rename(os.path.join(path_to_main_dir, file), os.path.join(archive_folder_path, file))
 
     # We have now created the bookings list lets write it
+    # and rename it to the current as_of_date
     print('New Master Bookings has ', len(bookings), ' line items')
     push_list_to_xls(bookings, 'TA Master Bookings as of ')
+    os.rename(os.path.join(path_to_main_dir, 'TA Master Bookings as of '),
+              os.path.join(path_to_main_dir, 'TA Master Bookings as of '+as_of_date+'.xlsx'))
 
     # Move the Renewals file into production from updates director
     renewal_file = 'TA Renewal Dates as of '+as_of_date+'.xlsx'
