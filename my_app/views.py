@@ -3,6 +3,7 @@ from my_app.settings import app_cfg
 from flask import render_template, url_for, request
 import time
 
+from my_app.refresh_data import refresh_data, get_as_skus
 from my_app.process_bookings import process_bookings
 from my_app.build_dashboard import build_dashboard
 
@@ -13,31 +14,30 @@ def index():
 
 
 @app.route('/refresh_data')
-def update_data():
+def _refresh_data():
     print('refresh data')
     print(app_cfg['HOME'])
-    # refresh_data()
-    time.sleep(2)
-    #  render_template('processing.html')
+    refresh_data()
+    get_as_skus()
+    # time.sleep(2)
     return render_template('index.html')
 
 
 @app.route('/process_bookings')
-def process_bookings():
+def _process_bookings():
     print('process bookings')
     print(app_cfg['HOME'])
-    # process_bookings()
-    time.sleep(2)
-    #  render_template('processing.html')
+    process_bookings()
+    # time.sleep(2)
     return render_template('index.html')
 
 
 @app.route('/build_dashboard')
-def build_dashboard():
+def _build_dashboard():
     print('build dashboard')
     print(app_cfg['HOME'])
-    # build_dashboard()
-    time.sleep(2)
+    build_dashboard()
+    # time.sleep(2)
     return render_template('index.html')
 
 
