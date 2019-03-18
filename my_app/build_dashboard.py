@@ -18,7 +18,7 @@ def build_dashboard():
     #
     # Open the order summary
     #
-    wb_orders, sheet_orders = open_wb(app_cfg['XLS_ORDER_SUMMARY'])
+    wb_orders, sheet_orders = open_wb(app_cfg['XLS_ORDER_SUMMARY'], 'updates')
 
     # wb_orders, sheet_orders = open_wb('tmp_TA Scrubbed Orders_as_of ' + app_cfg['PROD_DATE'])
 
@@ -224,7 +224,7 @@ def build_dashboard():
     #
     # Write the Dashboard to an Excel File
     #
-    push_list_to_xls(new_rows, app_cfg['XLS_DASHBOARD'])
+    push_list_to_xls(new_rows, app_cfg['XLS_DASHBOARD'], 'updates')
     # push_xls_to_ss(app_cfg['XLS_DASHBOARD']+'_as_of_01_31_2019.xlsx', 'jims dash')
 
     return

@@ -4,15 +4,27 @@ import os
 from my_app.settings import app_cfg
 
 
-def push_list_to_xls(my_list, xls_file):
+def push_list_to_xls(my_list, xls_file, dir_to_push='working'):
     #  def push_list_to_xls(my_list, xls_file, xls_time=app_cfg['PROD_DATE']):
     #
     # Get settings for file locations and names
     #
 
     home = app_cfg['HOME']
+    # working_dir = app_cfg['WORKING_DIR']
+    # path_to_files = os.path.join(home, working_dir)
+
     working_dir = app_cfg['WORKING_DIR']
-    path_to_files = os.path.join(home, working_dir)
+    path_to_files = ''
+    if dir_to_push == 'working':
+        path_to_files = os.path.join(home, working_dir)
+    elif dir_to_push == 'updates':
+        update_dir = app_cfg['UPDATES_DIR']
+        path_to_files = os.path.join(home,  working_dir, update_dir)
+
+
+
+
 
     wb_file = os.path.join(path_to_files, xls_file)
     # wb_file = os.path.join(path_to_files, xls_file + xls_time + '.xlsx')

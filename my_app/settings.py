@@ -25,8 +25,8 @@ def init_settings():
 
     app_cfg['PROD_DATE'] = prod_date[0]
     app_cfg['UPDATE_DATE'] = update_date[0]
-    app_cfg['XLS_RENEWALS'] = 'TA Renewal Dates as of ' + app_cfg['PROD_DATE'] + '.xlsx'
-    app_cfg['XLS_BOOKINGS'] = 'TA Master Bookings as of ' + app_cfg['PROD_DATE'] + '.xlsx'
+    app_cfg['XLS_RENEWALS'] = 'TA Master Renewals as of ' + app_cfg['PROD_DATE'] + '.xlsx'
+    app_cfg['XLS_BOOKINGS'] = 'tmp_Master Bookings as of ' + app_cfg['PROD_DATE'] + '.xlsx'
     app_cfg['XLS_CUSTOMER'] = 'tmp_TA Customer List ' + app_cfg['PROD_DATE'] + '.xlsx'
     app_cfg['XLS_ORDER_DETAIL'] = 'tmp_TA Order Details ' + app_cfg['PROD_DATE'] + '.xlsx'
     app_cfg['XLS_ORDER_SUMMARY'] = 'tmp_TA Scrubbed Orders ' + app_cfg['PROD_DATE'] + '.xlsx'

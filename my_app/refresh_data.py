@@ -3,6 +3,7 @@ from my_app.func_lib.open_wb import open_wb
 from my_app.func_lib.push_list_to_xls import push_list_to_xls
 from my_app.func_lib.build_sku_dict import build_sku_dict
 import os
+from shutil import copyfile
 
 
 def refresh_data():
@@ -38,7 +39,7 @@ def refresh_data():
     if len(update_files) == 0:
         # NO update files exist so throw an error ?
         print('ERROR: No Update files exist in:', path_to_updates)
-        exit()
+        return
     else:
         for file in update_files:
             # When we find a "Master Bookings" file
@@ -57,6 +58,48 @@ def refresh_data():
                 for row in range(start_row, ws.nrows):
                     bookings.append(ws.row_values(row))
 
+    # We have now created the bookings list lets write it
+    # and rename it to the current as_of_date
+    print('New Master Bookings has ', len(bookings), ' line items')
+    push_list_to_xls(bookings, 'tmp_working_bookings', 'updates')
+    os.rename(os.path.join(path_to_updates, 'tmp_working_bookings'),
+              os.path.join(path_to_updates, 'tmp_Master Bookings as of '+as_of_date+'.xlsx'))
+
+    # Create a workbook of filtered AS SKUs only
+    as_bookings = get_as_skus(bookings)
+    push_list_to_xls(as_bookings, 'tmp_working_as_bookings', 'updates')
+    os.rename(os.path.join(path_to_updates, 'tmp_working_as_bookings'),
+              os.path.join(path_to_updates, 'tmp_TA AS SKUs as of '+as_of_date+'.xlsx'))
+
+    # Make an archive directory we need to place these update files
+    os.mkdir(os.path.join(path_to_archives, as_of_date+" Updates"))
+    archive_folder_path = os.path.join(path_to_archives, as_of_date+" Updates")
+    print(archive_folder_path)
+
+    # Move a copy to the working directory also
+    main_files = os.listdir(path_to_updates)
+    for file in main_files:
+        copyfile(os.path.join(path_to_updates, file), os.path.join(path_to_main_dir, file))
+
+    # Move the updates to the archive directory
+    main_files = os.listdir(path_to_updates)
+    for file in main_files:
+        print(file)
+        os.rename(os.path.join(path_to_updates, file), os.path.join(archive_folder_path, file))
+    exit()
+
+    # Move the Renewals file into production from updates director
+    renewal_file = 'TA Renewal Dates as of '+as_of_date+'.xlsx'
+    os.rename(os.path.join(path_to_updates, renewal_file), os.path.join(path_to_main_dir, renewal_file))
+
+    print('All data files have been refreshed and archived !')
+
+    exit()
+
+
+
+
+
     # Look in the main working directory for current production files
     # and move to a dated archive folder in the 'archives' directory
 
@@ -67,6 +110,9 @@ def refresh_data():
     for file in main_files:
         if file.find('Master Bookings') != -1:
             archive_date = file[-13:-13 + 8]
+
+
+
 
     # Make the archive directory we need
     os.mkdir(os.path.join(path_to_archives, archive_date+" Updates"))
@@ -80,12 +126,10 @@ def refresh_data():
         elif file.find('AS SKUs') != -1:
             os.rename(os.path.join(path_to_main_dir, file), os.path.join(archive_folder_path, file))
 
-    # We have now created the bookings list lets write it
-    # and rename it to the current as_of_date
-    print('New Master Bookings has ', len(bookings), ' line items')
-    push_list_to_xls(bookings, 'TA Master Bookings as of ')
-    os.rename(os.path.join(path_to_main_dir, 'TA Master Bookings as of '),
-              os.path.join(path_to_main_dir, 'TA Master Bookings as of '+as_of_date+'.xlsx'))
+
+
+
+
 
     # Move the Renewals file into production from updates director
     renewal_file = 'TA Renewal Dates as of '+as_of_date+'.xlsx'
@@ -95,41 +139,34 @@ def refresh_data():
     return
 
 
-def get_as_skus():
-    init_settings()
-    print('is this right', app_cfg['PROD_DATE'])
-
+def get_as_skus(bookings):
+    # Build a SKU dict as a filter
     tmp_dict = build_sku_dict()
     sku_dict = {}
-    wb, ws = open_wb(app_cfg['XLS_BOOKINGS'])
-    header_row = ws.row_values(0)
+    header_row = bookings[0]
 
+    # Strip out all but Service sku's
     for sku_key, sku_val in tmp_dict.items():
         if sku_val[0] == 'Service':
             sku_dict[sku_key] = sku_val
 
     sku_col_header = 'Bundle Product ID'
     sku_col_num = 0
-    as_skus = [header_row]
+    as_bookings = [header_row]
 
     # Get the col number that has the SKU's
-    for col in range(ws.ncols):
-        if ws.cell_value(0, col) == sku_col_header:
-            sku_col_num = col
+    for idx, val in enumerate(header_row):
+        if val == sku_col_header:
+            sku_col_num = idx
             break
 
     # Gather all the rows with AS skus
-    for row in range(1, ws.nrows):
-        if ws.cell_value(row, sku_col_num) in sku_dict:
-            as_skus.append(ws.row_values(row))
-
-    push_list_to_xls(as_skus, 'tmp_TA AS SKUs as of ')
-    path_to_main_dir = (os.path.join(app_cfg['HOME'], app_cfg['WORKING_DIR']))
-    os.rename(os.path.join(path_to_main_dir, 'tmp_TA AS SKUs as of '),
-              os.path.join(path_to_main_dir, 'tmp_TA AS SKUs as of '+app_cfg['PROD_DATE']+'.xlsx'))
+    for booking in bookings:
+        if booking[sku_col_num] in sku_dict:
+            as_bookings.append(booking)
 
     print('All AS SKUs have been extracted from the current data!')
-    return
+    return as_bookings
 
 
 if __name__ == "__main__" and __package__ is None:
@@ -137,5 +174,5 @@ if __name__ == "__main__" and __package__ is None:
     print('running process bookings')
     refresh_data()
     print('Extracting AS SKUs')
-    get_as_skus()
+
 

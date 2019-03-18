@@ -9,7 +9,7 @@ from my_app.func_lib.build_sheet_map import build_sheet_map
 
 def process_renewals():
     # Open up the renewals excel workbooks
-    wb, sheet = open_wb(app_cfg['XLS_RENEWALS'])
+    wb, sheet = open_wb(app_cfg['XLS_RENEWALS'], 'updates')
 
     # Get the renewal columns we are looking for
     my_map = build_sheet_map(app_cfg['XLS_RENEWALS'], sheet_map, 'XLS_RENEWALS')

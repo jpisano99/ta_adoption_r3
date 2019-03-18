@@ -18,7 +18,6 @@ def _refresh_data():
     print('refresh data')
     print(app_cfg['HOME'])
     refresh_data()
-    get_as_skus()
     # time.sleep(2)
     return render_template('index.html')
 

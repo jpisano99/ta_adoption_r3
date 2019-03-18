@@ -23,7 +23,7 @@ def build_sheet_map(file_name, my_map, tag):
                     val[2] = ss_col_num
 
     elif tag[:3] == 'XLS':
-        workbook, sheet = open_wb(file_name)
+        workbook, sheet = open_wb(file_name, 'updates')
         # Loop across all column headings in the bookings file and
         # Find the column number that matches the col_name in my_dict
         for wb_col_num in range(sheet.ncols):

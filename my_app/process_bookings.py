@@ -25,7 +25,7 @@ def process_bookings():
     #
     # Open up the bookings excel workbooks
     #
-    wb_bookings, sheet_bookings = open_wb(app_cfg['XLS_BOOKINGS'])
+    wb_bookings, sheet_bookings = open_wb(app_cfg['XLS_BOOKINGS'], 'updates')
 
     # From the current up to date bookings file build a simple list
     # that describes the format of the output file we are creating
@@ -211,10 +211,10 @@ def process_bookings():
     # push_list_to_xls(customer_platforms, 'jim ')
     print('order summary name ', app_cfg['XLS_ORDER_SUMMARY'])
 
-    push_list_to_xls(summary_order_rows, app_cfg['XLS_ORDER_SUMMARY'])
-    push_list_to_xls(order_rows, app_cfg['XLS_ORDER_DETAIL'])
-    push_list_to_xls(customer_list, app_cfg['XLS_CUSTOMER'])
-    push_list_to_xls(trash_rows, app_cfg['XLS_BOOKINGS_TRASH'])
+    push_list_to_xls(summary_order_rows, app_cfg['XLS_ORDER_SUMMARY'], 'updates')
+    push_list_to_xls(order_rows, app_cfg['XLS_ORDER_DETAIL'], 'updates')
+    push_list_to_xls(customer_list, app_cfg['XLS_CUSTOMER'], 'updates')
+    push_list_to_xls(trash_rows, app_cfg['XLS_BOOKINGS_TRASH'], 'updates')
 
     # exit()
     #

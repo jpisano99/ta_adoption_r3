@@ -7,7 +7,7 @@ from my_app.func_lib.open_wb import open_wb
 def build_customer_list():
     my_map = build_sheet_map(app_cfg['XLS_BOOKINGS'], sheet_map, 'XLS_BOOKINGS')
 
-    wb_bookings, sheet_bookings = open_wb(app_cfg['XLS_BOOKINGS'])
+    wb_bookings, sheet_bookings = open_wb(app_cfg['XLS_BOOKINGS'], 'updates')
     customer_list = []
     col_num_end_customer = -1
     col_num_erp_customer = -1
