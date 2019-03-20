@@ -13,8 +13,9 @@ def refresh_data():
     # It looks for a file(s) in the format of:
     #   'FY17 TA Master Bookings as of 02-25-19.xlsx'
     #   'TA Renewal Dates as of 02-25-19.xlsx'
-    # It will prep them and then place them in the working_dir
-    # It will also take the previously used working files and move them to the archive_dir
+    # It will prep them and create all supporting files in the update dir
+    # ALL workbooks created will begin with tmp_XXXXX.xlsx
+    # We then create a dated archive directory and move a set of all files to the archive & working dirs
 
     home = app_cfg['HOME']
     working_dir = app_cfg['WORKING_DIR']
@@ -39,7 +40,7 @@ def refresh_data():
     # Look in the "ta_data_updates" dir
     # this is where we place newly updated sheets to be put into production
     if len(update_files) == 0:
-        # NO update files exist so throw an error ?
+        # NO update files exist so log an error and return
         print('ERROR: No Update files exist in:', path_to_updates)
         return
     else:
@@ -59,6 +60,7 @@ def refresh_data():
 
                 for row in range(start_row, ws.nrows):
                     bookings.append(ws.row_values(row))
+    print('as of', as_of_date)
 
     # We have now created the bookings list lets write it
     # and rename it to the current as_of_date
@@ -74,37 +76,47 @@ def refresh_data():
               os.path.join(path_to_updates, 'tmp_TA AS SKUs as of '+as_of_date+'.xlsx'))
 
     # process_bookings
-    print ('Before init', app_cfg['XLS_BOOKINGS'])
+    print('Before init', app_cfg['XLS_BOOKINGS'])
     init_settings()
     print('after init', app_cfg['XLS_BOOKINGS'])
-
     process_bookings()
 
     # build_dashboard
     build_dashboard()
 
-    # Make an archive directory we need to place these update files
+    # Make an archive directory where we need to place these update files
     os.mkdir(os.path.join(path_to_archives, as_of_date+" Updates"))
     archive_folder_path = os.path.join(path_to_archives, as_of_date+" Updates")
     print(archive_folder_path)
 
-    # Move a copy to the working directory also
+    # Delete all current working files from the working directory stamped with del_date
+    files = os.listdir(path_to_main_dir)
+    del_date = ''
+    for file in files:
+        if file.find('Master Bookings') != -1:
+            del_date = file[-13:-13 + 8]
+            break
+
+    for file in files:
+        if file[-13:-13 + 8] == del_date:
+            print('Deleting file', file)
+            os.remove(os.path.join(path_to_main_dir, file))
+
+    # Move a copy of all new files to the working directory also
     main_files = os.listdir(path_to_updates)
     for file in main_files:
         copyfile(os.path.join(path_to_updates, file), os.path.join(path_to_main_dir, file))
 
-    # Move the updates to the archive directory
-    main_files = os.listdir(path_to_updates)
-    for file in main_files:
+    # Move all updates to the archive directory
+    update_files = os.listdir(path_to_updates)
+    for file in update_files:
         print(file)
         os.rename(os.path.join(path_to_updates, file), os.path.join(archive_folder_path, file))
 
-    # Move the Renewals file into production from updates director
-    # renewal_file = 'TA Renewal Dates as of '+as_of_date+'.xlsx'
-    # os.rename(os.path.join(path_to_updates, renewal_file), os.path.join(path_to_main_dir, renewal_file))
-
     print('All data files have been refreshed and archived !')
-
+    print('Before init', app_cfg['XLS_BOOKINGS'])
+    init_settings()
+    print('after init', app_cfg['XLS_BOOKINGS'])
     return
 
 
