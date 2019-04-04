@@ -5,7 +5,7 @@ from my_app.settings import app_cfg
 
 
 def push_list_to_xls(my_list, xls_file, dir_to_push='working'):
-    #  def push_list_to_xls(my_list, xls_file, xls_time=app_cfg['PROD_DATE']):
+    # def push_list_to_xls(my_list, xls_file, xls_time=app_cfg['PROD_DATE']):
     #
     # Get settings for file locations and names
     #
@@ -21,10 +21,6 @@ def push_list_to_xls(my_list, xls_file, dir_to_push='working'):
     elif dir_to_push == 'updates':
         update_dir = app_cfg['UPDATES_DIR']
         path_to_files = os.path.join(home,  working_dir, update_dir)
-
-
-
-
 
     wb_file = os.path.join(path_to_files, xls_file)
     # wb_file = os.path.join(path_to_files, xls_file + xls_time + '.xlsx')

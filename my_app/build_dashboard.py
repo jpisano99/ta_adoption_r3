@@ -54,6 +54,8 @@ def build_dashboard():
     as_dict = get_linked_sheet_update(sheet_map, 'SS_AS', sheet_keys)
     saas_dict = get_linked_sheet_update(sheet_map, 'SS_SAAS', sheet_keys)
 
+    # print(as_dict)
+    # exit()
     print()
     print('We have CX Updates: ', len(cx_dict))
     print('We have AS Updates: ', len(as_dict))
@@ -106,8 +108,8 @@ def build_dashboard():
         as_pm = ''
         as_cse1 = ''
         as_cse2 = ''
-        as_complete = ''
-        as_comments = ''
+        as_complete = ''  # 'Project Status/PM Completion'
+        as_comments = ''  # 'Delivery Comments'
 
         #
         # Get update from linked sheets (if any)
@@ -147,12 +149,13 @@ def build_dashboard():
             if as_dict[customer][3] == '':
                 as_complete = 'No Update'
             else:
-                as_complete = as_dict[customer][2]
+                # 'Project Status/PM Completion'
+                as_complete = as_dict[customer][3]
 
             if as_dict[customer][4] == '':
                 as_comments = 'No Comments'
             else:
-                as_comments = as_dict[customer][3]
+                as_comments = as_dict[customer][4]
 
         #
         # Loop over this customers orders
@@ -188,7 +191,7 @@ def build_dashboard():
         order[my_col_idx['Project Manager']] = as_pm
         order[my_col_idx['AS Engineer 1']] = as_cse1
         order[my_col_idx['AS Engineer 2']] = as_cse2
-        order[my_col_idx['Project Status/PM Completion']] = as_complete
+        order[my_col_idx['Project Status/PM Completion']] = as_complete  # 'Project Status/PM Completion'
         order[my_col_idx['Delivery Comments']] = as_comments
 
         order[my_col_idx['Provisioning completed']] = saas_status
