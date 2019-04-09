@@ -54,7 +54,7 @@ def build_dashboard():
     as_dict = get_linked_sheet_update(sheet_map, 'SS_AS', sheet_keys)
     saas_dict = get_linked_sheet_update(sheet_map, 'SS_SAAS', sheet_keys)
 
-    # print(as_dict)
+    # print(cx_dict)
     # exit()
     print()
     print('We have CX Updates: ', len(cx_dict))
@@ -185,8 +185,8 @@ def build_dashboard():
         order[my_col_idx['Sensor Count']] = sensor_count
         order[my_col_idx['Service Bookings']] = service_bookings
 
-        order[my_col_idx['CuSM Name']] = cx_contact
-        order[my_col_idx['Next Action']] = cx_status
+        order[my_col_idx['CSM']] = cx_contact
+        order[my_col_idx['Comments']] = cx_status
 
         order[my_col_idx['Project Manager']] = as_pm
         order[my_col_idx['AS Engineer 1']] = as_cse1
