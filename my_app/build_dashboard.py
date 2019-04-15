@@ -14,6 +14,7 @@ from my_app.func_lib.push_xls_to_ss import push_xls_to_ss
 
 
 def build_dashboard():
+    exit()
     from my_app.func_lib.sheet_desc import sheet_map
     #
     # Open the order summary
